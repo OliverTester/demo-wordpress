@@ -36,10 +36,10 @@ function demo_wordpress_setup_menu() {
  * Check if WooCommerce is active
  */
 function demo_wordpress_activate() {
-    if ( in_array( '/woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+//    if ( in_array( '/woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
         // Put your plugin code here
         echo "<p> Yes Woocommerce is active!!! Doh! </p>";
-    }
+//    }
 }
 
 
