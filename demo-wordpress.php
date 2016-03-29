@@ -24,10 +24,17 @@
  * Text Domain: demo-wordpress
  */
 
+//add action
+add_action('admin_menu', 'demo_wordpress_setup_menu');
+
+//set up plugin menu
+function demo_wordpress_setup_menu() {
+    add_menu_page( 'Demo WordPress Page', 'Demo WordPress', 'manage_options', 'demo-wordpress', 'demo_wordpress_activate' );
+}
+
 /**
  * Check if WooCommerce is active
  */
-
 function demo_wordpress_activate() {
     if ( in_array( '/woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
         // Put your plugin code here
@@ -37,5 +44,5 @@ function demo_wordpress_activate() {
 
 
 //now activate and do whats needs doing
-register_activation_hook( __FILE__, 'demo_wordpress_activate');
+//register_activation_hook( __FILE__, 'demo_wordpress_activate');
 ?>
