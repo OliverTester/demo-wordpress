@@ -38,9 +38,17 @@ function demo_wordpress_setup_menu() {
 function demo_wordpress_activate() {
 //    if ( in_array( '/woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
         // Put your plugin code here
-    $bloginfo = get_bloginfo( $show = 'name');
-        echo "<p> Yes Woocommerce is active!!! Doh! </p>";
-    echo $bloginfo;
+    $merchantName = get_bloginfo( $show = 'name');
+    $merchantDescription = get_bloginfo( $show = 'description');
+    $merchantUrl = get_bloginfo( $show = 'url');
+    $merchantAdminEmail = get_bloginfo( $show = 'admin_email');
+    $merchantLanguage = get_bloginfo( $show = 'language');;
+
+    echo $merchantName;
+    echo $merchantDescription;
+    echo $merchantUrl;
+    echo $merchantAdminEmail;
+    echo $merchantLanguage;
 //    }
 }
 
