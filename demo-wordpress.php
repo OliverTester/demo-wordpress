@@ -44,11 +44,11 @@ function demo_wordpress_activate() {
     $merchantAdminEmail = get_bloginfo( $show = 'admin_email');
     $merchantLanguage = get_bloginfo( $show = 'language');;
 
-    echo $merchantName;
-    echo $merchantDescription;
-    echo $merchantUrl;
-    echo $merchantAdminEmail;
-    echo $merchantLanguage;
+    echo $merchantName."<br>";
+    echo $merchantDescription."<br>";
+    echo $merchantUrl."<br>";
+    echo $merchantAdminEmail."<br>";
+    echo $merchantLanguage."<br>";
 //    }
 }
 
