@@ -50,7 +50,7 @@ function demo_wordpress_activate() {
     echo $merchantAdminEmail."<br>";
     echo $merchantLanguage."<br>";
 
-    $store_url = 'http://199.223.234.187';
+    $store_url = $merchantUrl;
     $endpoint  = '/wc-auth/v1/authorize';
     $params    = array(
         'app_name'     => 'demo-wordpress',
