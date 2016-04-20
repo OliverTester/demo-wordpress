@@ -49,6 +49,18 @@ function demo_wordpress_activate() {
     echo $merchantUrl."<br>";
     echo $merchantAdminEmail."<br>";
     echo $merchantLanguage."<br>";
+
+    $store_url = $merchantUrl;
+    $endpoint  = '/wc-auth/v1/authorize';
+    $params    = array(
+        'app_name'     => 'demo-wordpress',
+        'scope'        => 'read_write',
+        'user_id'      => '123_Test_001',
+        'return_url'   => 'http://www.feefo.com',
+        'callback_url' => 'https://www.feefo.com'
+    );
+
+    echo $store_url . $endpoint . '?' . http_build_query( $params );
 //    }
 }
 
