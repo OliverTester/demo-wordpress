@@ -24,6 +24,11 @@
  * Text Domain: demo-wordpress
  */
 
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
+}
+
 //add action
 add_action('admin_menu', 'demo_wordpress_setup_menu');
 
@@ -42,16 +47,62 @@ function demo_wordpress_activate() {
     $merchantDescription = get_bloginfo( $show = 'description');
     $merchantUrl = get_bloginfo( $show = 'url');
     $merchantAdminEmail = get_bloginfo( $show = 'admin_email');
-    $merchantLanguage = get_bloginfo( $show = 'language');;
+    $merchantLanguage = get_bloginfo( $show = 'language');
 
     echo $merchantName."<br>";
     echo $merchantDescription."<br>";
     echo $merchantUrl."<br>";
     echo $merchantAdminEmail."<br>";
     echo $merchantLanguage."<br>";
+
+    $store_url = $merchantUrl;
+    $endpoint  = '/wc-auth/v1/authorize';
+    $params    = array(
+        'app_name'     => 'demo-wordpress',
+        'scope'        => 'read_write',
+        'user_id'      => '123_Test_001',
+        'return_url'   => 'https://wcwptest.localtunnel.me/xmlfeedback?merchantidentifier=modern-rugs-ltd',
+        'callback_url' => 'https://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/credentials'
+    );
+
+    echo $store_url . $endpoint . '?' . http_build_query( $params )."<br />";
+
+    processMerchantCreation();
 //    }
 }
 
+function processMerchantCreation() {
+
+    $createMerchantRoute = 'http://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/callback';
+    $parameters = array('merchantName' => get_bloginfo( $show = 'name'),
+        'merchantDescription' => get_bloginfo( $show = 'description'),
+        'merchantUrl' => get_bloginfo( $show = 'url'),
+        'merchantLanguage' => get_bloginfo( $show = 'language'),
+        'merchantAdminEmail' => get_bloginfo( $show = 'admin_email')
+    );
+
+    $requestHeaders = array(
+        'Content-Type' => 'application/json'
+    );
+
+    $response = wp_remote_post( $createMerchantRoute, array(
+            'method' => 'POST',
+            'body' => json_decode(json_encode( $parameters )),
+            'headers' => $requestHeaders,
+            'cookies' => array()
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        $error_message = $response->get_error_message();
+        echo "Something went wrong: $error_message";
+    } else {
+        echo 'Response:<pre>';
+        print_r( $response );
+        echo '</pre>';
+    }
+
+}
 
 //now activate and do whats needs doing
 //register_activation_hook( __FILE__, 'demo_wordpress_activate');
