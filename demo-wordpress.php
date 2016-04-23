@@ -73,7 +73,7 @@ function demo_wordpress_activate() {
 
 function processMerchantCreation() {
 
-    $createMerchantRoute = 'http://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register';
+    $createMerchantRoute = 'https://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/merchant';
     $parameters = array('merchantName' => get_bloginfo( $show = 'name'),
         'merchantDescription' => get_bloginfo( $show = 'description'),
         'merchantUrl' => get_bloginfo( $show = 'url'),
