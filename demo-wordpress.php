@@ -73,7 +73,7 @@ function demo_wordpress_activate() {
 
 function processMerchantCreation() {
 
-    $createMerchantRoute = 'http://192.168.1.7:9090/ecommerce/plugin/woocommerce/register/callback';
+    $createMerchantRoute = 'http://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/callback';
     $parameters = array('merchantName' => get_bloginfo( $show = 'name'),
         'merchantDescription' => get_bloginfo( $show = 'description'),
         'merchantUrl' => get_bloginfo( $show = 'url'),
