@@ -61,8 +61,8 @@ function demo_wordpress_activate() {
         'app_name'     => 'demo-wordpress',
         'scope'        => 'read_write',
         'user_id'      => '123_Test_001',
-        'return_url'   => 'http://192.168.1.7:8443/xmlfeedback?merchantidentifier=modern-rugs-ltd',
-        'callback_url' => 'https://192.168.1.7:8443/ecommerce/plugin/woocommerce/credentials'
+        'return_url'   => 'https://wcwptest.localtunnel.me/xmlfeedback?merchantidentifier=modern-rugs-ltd',
+        'callback_url' => 'https://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/credentials'
     );
 
     echo $store_url . $endpoint . '?' . http_build_query( $params )."<br />";
@@ -73,7 +73,7 @@ function demo_wordpress_activate() {
 
 function processMerchantCreation() {
 
-    $createMerchantRoute = 'http://192.168.1.7:9090/ecommerce/plugin/woocommerce/register';
+    $createMerchantRoute = 'http://192.168.1.7:9090/ecommerce/plugin/woocommerce/register/callback';
     $parameters = array('merchantName' => get_bloginfo( $show = 'name'),
         'merchantDescription' => get_bloginfo( $show = 'description'),
         'merchantUrl' => get_bloginfo( $show = 'url'),
