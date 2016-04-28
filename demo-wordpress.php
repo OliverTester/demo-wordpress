@@ -105,7 +105,7 @@ function processMerchantCreation() {
 }
 
 function includeHomePageWidget() {
-    echo '<p>This is inserted at the bottom</p>';
+    echo '<script type="text/javascript" id="feefo-plugin-widget-bootstrap" src="//register.feefo.com/api/ecommerce/plugin/shopify/widget/merchant/master-debonair"></script>';
 }
 
 //now activate and do whats needs doing
