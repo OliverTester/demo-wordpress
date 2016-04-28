@@ -31,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //add action
 add_action('admin_menu', 'demo_wordpress_setup_menu');
+add_action( 'wp_footer', 'includeHomePageWidget' );
 
 //set up plugin menu
 function demo_wordpress_setup_menu() {
@@ -101,7 +102,10 @@ function processMerchantCreation() {
         print_r( $response );
         echo '</pre>';
     }
+}
 
+function includeHomePageWidget() {
+    echo '<p>This is inserted at the bottom</p>';
 }
 
 //now activate and do whats needs doing
