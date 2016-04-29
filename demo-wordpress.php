@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //add action
 add_action('admin_menu', 'demo_wordpress_setup_menu');
-add_action( 'wp_footer', 'includeHomePageWidget' );
+//add_action( 'wp_footer', 'includeHomePageWidget' );
 
 //set up plugin menu
 function demo_wordpress_setup_menu() {
@@ -49,12 +49,15 @@ function demo_wordpress_activate() {
     $merchantUrl = get_bloginfo( $show = 'url');
     $merchantAdminEmail = get_bloginfo( $show = 'admin_email');
     $merchantLanguage = get_bloginfo( $show = 'language');
+    
+    $pluginsUrl = plugins_url();
 
     echo $merchantName."<br>";
     echo $merchantDescription."<br>";
     echo $merchantUrl."<br>";
     echo $merchantAdminEmail."<br>";
     echo $merchantLanguage."<br>";
+    echo $pluginsUrl."<br>";
 
     $store_url = $merchantUrl;
     $endpoint  = '/wc-auth/v1/authorize';
