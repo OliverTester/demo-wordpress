@@ -30,6 +30,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
+register_activation_hook( __FILE__, 'demo_wordpress_activate');
+
+add_action( 'admin_init', redirectToAuthenticationScreen() );
 
 /**
  * Check if WooCommerce is active
@@ -60,7 +63,6 @@ function demo_wordpress_activate() {
 
     processMerchantCreation();
 
-    redirectToAuthenticationScreen();
 
     //add action
     add_action('admin_menu', 'demo_wordpress_setup_menu');
@@ -77,7 +79,8 @@ function demo_wordpress_activate() {
 function processMerchantCreation() {
 
     $createMerchantRoute = 'https://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/merchant';
-    $parameters = array('merchantName' => get_bloginfo( $show = 'name'),
+    $parameters = array(
+        'merchantName' => get_bloginfo( $show = 'name'),
         'merchantDescription' => get_bloginfo( $show = 'description'),
         'merchantUrl' => get_bloginfo( $show = 'url'),
         'merchantLanguage' => get_bloginfo( $show = 'language'),
@@ -88,9 +91,11 @@ function processMerchantCreation() {
         'Content-Type' => 'application/json'
     );
 
+    echo "<br>".json_encode( $parameters )."<br>";
+
     $response = wp_remote_post( $createMerchantRoute, array(
             'method' => 'POST',
-            'body' => json_decode(json_encode( $parameters )),
+            'body' => json_encode( $parameters ),
             'headers' => $requestHeaders,
             'cookies' => array()
         )
@@ -118,11 +123,17 @@ function authenticateFeefo() {
         'callback_url' => 'https://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/callback'
     );
 
-    echo $store_url . $endpoint . '?' . http_build_query( $params );
+    $redirectEndPoint = $store_url . $endpoint . '?' . http_build_query( $params );;
+
+    return $redirectEndPoint;
 }
 
 function redirectToAuthenticationScreen() {
-    wp_redirect( authenticateFeefo() );
+
+    $redirectUrl = authenticateFeefo();
+
+    header("Location: ".$redirectUrl);
+
     exit();
 }
 
@@ -130,6 +141,4 @@ function includeHomePageWidget() {
     echo '<script type="text/javascript" id="feefo-plugin-widget-bootstrap" src="//register.feefo.com/api/ecommerce/plugin/shopify/widget/merchant/example-shopify-merchant"></script>';
 }
 
-//now activate and do whats needs doing
-register_activation_hook( __FILE__, 'demo_wordpress_activate');
 ?>
