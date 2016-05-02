@@ -25,6 +25,7 @@
  */
 
 
+//block direct access to plugin file
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
@@ -52,12 +53,19 @@ function demo_wordpress_activate() {
     
     $pluginsUrl = plugins_url();
 
+    $woocommerceActivated = is_plugin_active( 'woocommerce/woocommerce.php' );
+    $woocommerceActivatedSiteWide = is_plugin_active_for_network( 'woocommerce/woocommerce.php');
+
     echo $merchantName."<br>";
     echo $merchantDescription."<br>";
     echo $merchantUrl."<br>";
     echo $merchantAdminEmail."<br>";
     echo $merchantLanguage."<br>";
     echo $pluginsUrl."<br>";
+
+    echo $woocommerceActivated."<br>";
+    echo $woocommerceActivatedSiteWide."<br>";
+
 
     $store_url = $merchantUrl;
     $endpoint  = '/wc-auth/v1/authorize';
