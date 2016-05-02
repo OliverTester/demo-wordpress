@@ -30,14 +30,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-//add action
-add_action('admin_menu', 'demo_wordpress_setup_menu');
-//add_action( 'wp_footer', 'includeHomePageWidget' );
-
-//set up plugin menu
-function demo_wordpress_setup_menu() {
-    add_menu_page( 'Demo WordPress Page', 'Demo WordPress', 'manage_options', 'demo-wordpress', 'demo_wordpress_activate' );
-}
 
 /**
  * Check if WooCommerce is active
@@ -66,20 +58,19 @@ function demo_wordpress_activate() {
     echo $woocommerceActivated."<br>";
     echo $woocommerceActivatedSiteWide."<br>";
 
-
-    $store_url = $merchantUrl;
-    $endpoint  = '/wc-auth/v1/authorize';
-    $params    = array(
-        'app_name'     => 'demo-wordpress',
-        'scope'        => 'read_write',
-        'user_id'      => '123_Test_001',
-        'return_url'   => 'https://wcwptest.localtunnel.me/xmlfeedback?merchantidentifier=modern-rugs-ltd',
-        'callback_url' => 'https://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/callback'
-    );
-
-    echo $store_url . $endpoint . '?' . http_build_query( $params )."<br />";
-
     processMerchantCreation();
+
+    redirectToAuthenticationScreen();
+
+    //add action
+    add_action('admin_menu', 'demo_wordpress_setup_menu');
+    add_action( 'wp_footer', 'includeHomePageWidget' );
+
+//set up plugin menu
+    function demo_wordpress_setup_menu() {
+        add_menu_page( 'Demo WordPress Page', 'Demo WordPress', 'manage_options', 'demo-wordpress', 'demo_wordpress_activate' );
+    }
+
 //    }
 }
 
@@ -115,10 +106,30 @@ function processMerchantCreation() {
     }
 }
 
+
+function authenticateFeefo() {
+    $store_url = get_bloginfo( $show = 'url');
+    $endpoint  = '/wc-auth/v1/authorize';
+    $params    = array(
+        'app_name'     => 'demo-wordpress',
+        'scope'        => 'read_write',
+        'user_id'      => '123_Test_001',
+        'return_url'   => 'https://wcwptestui.localtunnel.me/#/platform',
+        'callback_url' => 'https://wcwptest.localtunnel.me/ecommerce/plugin/woocommerce/register/callback'
+    );
+
+    echo $store_url . $endpoint . '?' . http_build_query( $params );
+}
+
+function redirectToAuthenticationScreen() {
+    wp_redirect( authenticateFeefo() );
+    exit();
+}
+
 function includeHomePageWidget() {
-    echo '<script type="text/javascript" id="feefo-plugin-widget-bootstrap" src="//register.feefo.com/api/ecommerce/plugin/shopify/widget/merchant/master-debonair"></script>';
+    echo '<script type="text/javascript" id="feefo-plugin-widget-bootstrap" src="//register.feefo.com/api/ecommerce/plugin/shopify/widget/merchant/example-shopify-merchant"></script>';
 }
 
 //now activate and do whats needs doing
-//register_activation_hook( __FILE__, 'demo_wordpress_activate');
+register_activation_hook( __FILE__, 'demo_wordpress_activate');
 ?>
