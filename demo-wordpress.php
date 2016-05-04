@@ -30,22 +30,29 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-register_activation_hook( __FILE__, 'demo_wordpress_activate');
+//register_activation_hook( __FILE__, 'demo_wordpress_activate');
 
-add_action( 'admin_init', redirectToAuthenticationScreen() );
+//add action
+add_action('admin_menu', 'demo_wordpress_setup_menu');
+add_action( 'wp_footer', 'includeHomePageWidget' );
+
+add_filter( 'woocommerce_product_tabs', 'add_feefo_review_product_tab', 98 );
+
+
+//add_action( 'admin_init', redirectToAuthenticationScreen() );
 
 /**
  * Check if WooCommerce is active
  */
 function demo_wordpress_activate() {
 //    if ( in_array( '/woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-        // Put your plugin code here
+    // Put your plugin code here
     $merchantName = get_bloginfo( $show = 'name');
     $merchantDescription = get_bloginfo( $show = 'description');
     $merchantUrl = get_bloginfo( $show = 'url');
     $merchantAdminEmail = get_bloginfo( $show = 'admin_email');
     $merchantLanguage = get_bloginfo( $show = 'language');
-    
+
     $pluginsUrl = plugins_url();
 
     $woocommerceActivated = is_plugin_active( 'woocommerce/woocommerce.php' );
@@ -63,17 +70,12 @@ function demo_wordpress_activate() {
 
     processMerchantCreation();
 
-
-    //add action
-    add_action('admin_menu', 'demo_wordpress_setup_menu');
-    add_action( 'wp_footer', 'includeHomePageWidget' );
+//    }
+}
 
 //set up plugin menu
-    function demo_wordpress_setup_menu() {
-        add_menu_page( 'Demo WordPress Page', 'Demo WordPress', 'manage_options', 'demo-wordpress', 'demo_wordpress_activate' );
-    }
-
-//    }
+function demo_wordpress_setup_menu() {
+    add_menu_page( 'Demo WordPress Page', 'Demo WordPress', 'manage_options', 'demo-wordpress', 'demo_wordpress_activate' );
 }
 
 function processMerchantCreation() {
@@ -139,6 +141,29 @@ function redirectToAuthenticationScreen() {
 
 function includeHomePageWidget() {
     echo '<script type="text/javascript" id="feefo-plugin-widget-bootstrap" src="//register.feefo.com/api/ecommerce/plugin/shopify/widget/merchant/example-shopify-merchant"></script>';
+}
+
+
+function add_feefo_review_product_tab() {
+
+    // Adds the new tab
+    $tabs['test_tab'] = array(
+        'title' 	=> __( 'Feefo Reviews', 'woocommerce' ),
+        'priority' 	=> 50,
+        'callback' 	=> 'feefo_product_review_widget_div'
+    );
+
+    //remove current reviews tab
+    unset( $tabs['reviews'] );
+
+    return $tabs;
+}
+
+function feefo_product_review_widget_div() {
+
+    // Echo content.
+    echo '<div id="feefo-product-review-widgetId" class="feefo-review-widget-product" data-feefo-product-id="4917853446"></div>';
+
 }
 
 ?>
